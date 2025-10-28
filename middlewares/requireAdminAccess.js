@@ -1,3 +1,7 @@
+const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'votre-secret-key-super-securisee'; // À mettre dans .env en prod
+
 module.exports = (req, res, next) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
   
@@ -5,11 +9,11 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: "Token d'accès requis" });
   }
   
-  // Vérification du token en dur
-  if (token !== '2444666668888888') {
-    return res.status(401).json({ message: "Token invalide" });
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Token invalide ou expiré" });
   }
-  
-  req.token = token;
-  next();
 };
