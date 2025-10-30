@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'votre-secret-key-super-securisee';
+const SECRET_KEY = 'oui';
 
 const token = jwt.sign(
   { 
@@ -8,7 +8,7 @@ const token = jwt.sign(
     role: 'admin' 
   },
   SECRET_KEY,
-  { expiresIn: '365d' } // Token valide 1 an
+  { expiresIn: '365d' } 
 );
 
 console.log('Voici ton token JWT:');
