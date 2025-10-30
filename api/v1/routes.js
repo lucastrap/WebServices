@@ -1,7 +1,6 @@
 // Routes pour l'API v1
 const express = require('express');
 const router = express.Router();
-/**
 
 
 // Endpoints v1 RESTful pour books
@@ -32,55 +31,15 @@ router.get('/books/:id', (req, res) => {
   res.status(200).json(book);
 });
 
-// POST /api/v1/books
-router.post('/books', (req, res) => {
-  /**
-   * @swagger
-   * /api/v1/books/{id}:
-   *   get:
-   *     summary: Obtenir un livre par id (v1)
-   *     parameters:
-   *       - in: path
-   *         name: id
-   *         required: true
-   *         schema:
-   *           type: integer
-   *     responses:
-   *       200:
-   *         description: Livre
-   *       404:
-   *         description: Not found
-   *   put:
-   *     summary: Modifier un livre (v1)
-   *     parameters:
-   *       - in: path
-   *         name: id
-   *         required: true
-   *         schema:
-   *           type: integer
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/BookInput'
-   *     responses:
-   *       200:
-   *         description: Livre modifié
-   *       404:
-   *         description: Not found
-   *   delete:
-   *     summary: Supprimer un livre (v1)
-   *     parameters:
-   *       - in: path
-   *         name: id
-   *         required: true
-   *         schema:
-   *           type: integer
-   *     responses:
-   *       204:
-   *         description: Livre supprimé
-   *       404:
-   *         description: Not found
-   */
-  // ...existing code...
+
+// Middleware de validation
+const { validateBookInput } = require('../../utils/validators');
+
+
+router.post('/books', validateBookInput, (req, res) => {
+  const newBook = { ...req.body, id: String(Date.now()) };
+  books.push(newBook);
+  res.status(201).json(newBook);
+});
+
+module.exports = router;
