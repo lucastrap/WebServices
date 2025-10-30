@@ -1,0 +1,8 @@
+refac endpoint noms coherent, pas verbes http
+versionnning api
+pagination
+ajout status codes explicites
+documentater au format openapi json 
+un fichier openapi yamlet endpoints testable
+
+hateoas /api qui retourne la liste des liens dispo dans l'api retourner uniquement la derniere version
