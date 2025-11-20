@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'oui';
+const SECRET_KEY = process.env.JWT_SECRET || 'lemotdepassequifaitpeur';
 
 const token = jwt.sign(
   { 

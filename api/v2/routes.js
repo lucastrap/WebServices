@@ -1,13 +1,8 @@
-// Routes pour l'API v2
 const express = require('express');
 const router = express.Router();
 const books = require('../../mockDB/books');
+const { validateBookInput, validateBookId } = require('../../utils/validators');
 
-
-// Endpoints v2 RESTful pour books
-// Amélioration : pagination, codes de statut, GET/POST/PUT/DELETE
-
-// GET /api/v2/books (pagination)
 router.get('/books', (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -25,30 +20,26 @@ router.get('/books', (req, res) => {
   });
 });
 
-// GET /api/v2/books/:id
-router.get('/books/:id', (req, res) => {
+router.get('/books/:id', validateBookId, (req, res) => {
   const book = books.find(b => b.id === req.params.id);
   if (!book) return res.status(404).json({ error: 'Book not found' });
   res.status(200).json(book);
 });
 
-// POST /api/v2/books
-router.post('/books', (req, res) => {
+router.post('/books', validateBookInput, (req, res) => {
   const newBook = { ...req.body, id: String(Date.now()) };
   books.push(newBook);
   res.status(201).json(newBook);
 });
 
-// PUT /api/v2/books/:id
-router.put('/books/:id', (req, res) => {
+router.put('/books/:id', validateBookId, validateBookInput, (req, res) => {
   const idx = books.findIndex(b => b.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Book not found' });
   books[idx] = { ...books[idx], ...req.body };
   res.status(200).json(books[idx]);
 });
 
-// DELETE /api/v2/books/:id
-router.delete('/books/:id', (req, res) => {
+router.delete('/books/:id', validateBookId, (req, res) => {
   const idx = books.findIndex(b => b.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Book not found' });
   books.splice(idx, 1);

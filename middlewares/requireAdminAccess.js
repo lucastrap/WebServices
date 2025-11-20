@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'votre-secret-key-super-securisee'; // À mettre dans .env en prod
+const SECRET_KEY = process.env.JWT_SECRET || 'votre-secret-key-super-securisee';
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
